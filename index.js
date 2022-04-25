@@ -5,6 +5,7 @@ const { buildSchema, GraphQLSchema } = require('graphql');
 const schema = require('./Schemas/index') 
 var bodyParser = require('body-parser')
 const dotenv = require('dotenv');
+const {sequelize} =  require("./models")
 
 
 
@@ -35,6 +36,7 @@ app.use('/graphql', graphqlHTTP({
 const port = process.env.PORT
 
 
-app.listen(port,'192.168.1.2', () => {
+app.listen(port,'192.168.1.2', async() => {
+  await sequelize.sync({force:false})
   console.log(`serevr listening on port ${port}`)
 })

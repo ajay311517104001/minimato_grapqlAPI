@@ -1,7 +1,7 @@
 const {UserType} =require('../../Schemas/TypeDefs/User')
- const {client} = require("../../dbmanager")
 const graphql = require("graphql");
-
+const { users } = require("../../models");
+const { user } = require('pg/lib/defaults');
 
 const {
   GraphQLObjectType,
@@ -13,7 +13,7 @@ GraphQLString,
 
 
 
- client.connect();
+
 
  const restultobj = new GraphQLObjectType({
    name:"getallusersformat",
@@ -30,9 +30,18 @@ GraphQLString,
 
 
     try{
-      const result =  await client.query("SELECT * FROM users")
-      return {userlist: result.rows , error: null}
-
+      const arr =[]
+      const result= await users.findAll({
+        attributes: ['id', 'user_id','password']
+      });
+     
+  
+  for(let i=0;i<result.length;i++){
+    arr.push(result[i]) 
+  }
+  console.log( arr)
+      return {userlist: arr , error: null}
+  
    
     }catch(err){
       console.log(err)

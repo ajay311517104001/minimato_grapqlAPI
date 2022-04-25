@@ -16,7 +16,8 @@ GraphQLString,
     fields: () => ({
       id: { type: GraphQLInt },
       user_id: { type: GraphQLString },
-      password: {type :GraphQLString}
+      password: {type :GraphQLString},
+    
      
     }),
   });
