@@ -1,0 +1,9 @@
+{
+    "dev": {
+      "driver": "pg",
+      "user": "ajay",
+      "password": "3581",
+      "host": "localhost",
+      "database": "minimato"
+    }
+  }
