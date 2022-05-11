@@ -34,12 +34,11 @@ GraphQLString,
       const result= await users.findAll({
         attributes: ['id', 'user_id','password']
       });
-     
+    
   
   for(let i=0;i<result.length;i++){
     arr.push(result[i]) 
   }
-  console.log( arr)
       return {userlist: arr , error: null}
   
    

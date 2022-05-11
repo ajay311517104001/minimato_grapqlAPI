@@ -26,7 +26,7 @@ const RootMutation =new GraphQLObjectType({
   name:"RootMutationType",
   
   fields:{
-    addNewUser: CREATE_USER,
+    registerNewUser: CREATE_USER,
 
 
   }

@@ -11,6 +11,7 @@ const {
   GraphQLString,
   GraphQLList,
   GraphQLInputObjectType,
+  GraphQLBoolean
 } = graphql;
 
 
@@ -18,7 +19,9 @@ const createuserRes = new GraphQLObjectType({
   name: "saveuseme",
   fields: ({
     user_id: { type: GraphQLString },
-    token: { type: GraphQLString }
+    token: { type: GraphQLString },
+    message:{type: GraphQLString},
+    userCreated:{type:GraphQLBoolean}
   })
 })
 
@@ -42,25 +45,36 @@ const CREATE_USER = {
   resolve: async (parents, args) => {
     let token
 
-    try {
-      console.log(args.userInput.user_id, args.userInput.password)
-      let user_id = args.userInput.user_id
-      let password = args.userInput.password
+  
+      
+      const userCheck =await users.findOne({where:{user_id:args.userInput.user_id}})
+      if(userCheck!==null){
 
-      await users.create({ user_id, password })
-        .then(() => {
+        return { user_id:'', token: '' , message: "User already exists",userCreated:false }
 
-          token = GenerateToken(args.userInput.user_id)
+      }else{
+
+        try {
+        let user_id = args.userInput.user_id
+        let password = args.userInput.password
+       
+        await users.create({ user_id, password })
+          .then(() => {
+  
+            token = GenerateToken(args.userInput.user_id)
+  
+  
+          })
+      } catch (err) {
+        console.log(err)
+  
+      }
+      return { user_id: args.userInput.user_id, token: token , message: "User created successfully",userCreated:true }
+      }
+    
 
 
-        })
-    } catch (err) {
-      console.log(err)
-
-    }
-
-
-    return { user_id: args.userInput.user_id, token: token }
+   
 
 
   }
